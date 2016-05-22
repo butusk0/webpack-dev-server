@@ -2,8 +2,17 @@ var url = require('url');
 var SockJS = require("sockjs-client");
 var stripAnsi = require('strip-ansi');
 var scriptElements = document.getElementsByTagName("script");
-var scriptHost = scriptElements[scriptElements.length-1].getAttribute("src");
-scriptHost = scriptHost && scriptHost.replace(/\/[^\/]+$/, "");
+var scriptHost;
+
+// I'm not sure that correct, but i think it's not needed
+for (var i = 0; i < scriptElements.length; i++) {
+	var script = scriptElements[i];
+	var src = script.getAttribute("src");
+	if (src) {
+		scriptHost = src.replace(/\/[^\/]+$/, "");
+		break;
+	}
+}
 
 // If this bundle is inlined, use the resource query to get the correct url.
 // Else, get the url from the <script> this file was called with.
